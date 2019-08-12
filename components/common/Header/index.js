@@ -25,7 +25,7 @@ const useStyles = makeStyles(theme => ({
         backgroundBlendMode: 'multiply',
         backgroundRepeat: 'no-repeat',
         backgroundSize: '100% auto',
-        maxHeight: 'calc(100vw*0.499)',
+        height: 'calc(99vw*0.499)',
         display: 'flex',
         flexFlow: 'column',
         alignItems: 'center',
