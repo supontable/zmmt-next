@@ -7,16 +7,14 @@ import Profile from "../svg/profile"
 import Find from "../svg/find"
 import Comparison from "../svg/comparison"
 //appbar
-import { makeStyles, useTheme } from '@material-ui/core/styles'
+import { makeStyles } from '@material-ui/core/styles'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
-import Typography from '@material-ui/core/Typography'
-import Button from '@material-ui/core/Button'
 import IconButton from '@material-ui/core/IconButton'
 import MenuIcon from '@material-ui/icons/Menu'
 import { List, Hidden, CssBaseline, Drawer, ListItem, ListItemText, Divider } from '@material-ui/core';
-
 //
+import SimpleMenu from './SimpleMenu'
 import './header.scss'
 const drawerWidth = 290;
 const useStyles = makeStyles(theme => ({
@@ -27,7 +25,7 @@ const useStyles = makeStyles(theme => ({
         backgroundBlendMode: 'multiply',
         backgroundRepeat: 'no-repeat',
         backgroundSize: '100% auto',
-        height: 'calc(100vw/2.1)',
+        maxHeight: 'calc(100vw*0.499)',
         display: 'flex',
         flexFlow: 'column',
         alignItems: 'center',
@@ -48,10 +46,15 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const links = [
-    { href: 'https://zeit.co/now', label: 'ZEIT' },
-    { href: 'https://github.com/zeit/next.js', label: 'GitHub' }
+    { href: '/loan_types', label: 'Вид кредита онлайн' },
+    { href: '/payment_gate', label: 'Способ получения' },
+    { href: '/payment_accounts', label: 'Способ погащения' },
+    { href: '/employee_type', label: 'Тип занятости' },
+    { href: '/loan_term', label: 'Срок займа' },
+    { href: '/feed', label: 'Ещё' },
+    { href: '/contacts', label: '8-800-333-47-88' },
 ].map(link => {
-    link.key = `nav-link-${link.href}-${link.label}`
+    link.key = `nav-link-${link.href}`
     return link
 })
 
@@ -59,7 +62,6 @@ const Header = (props) => {
     const classes = useStyles()
     const [mobileOpen, setMobileOpen] = React.useState(false);
     const { container } = props
-    const theme = useTheme()
     function handleDrawerToggle() {
         setMobileOpen(!mobileOpen);
     }
@@ -122,14 +124,9 @@ const Header = (props) => {
                         <nav className="link-nav">
                             <Container maxWidth="lg">
                                 <List>
-                                    <li>
-                                        <Link href='/'>
-                                            <a>Home</a>
-                                        </Link>
-                                    </li>
-                                    {links.map(({ key, href, label }) => (
+                                    {links.map(({ key, label }) => (
                                         <li key={key}>
-                                            <a href={href}>{label}</a>
+                                            <SimpleMenu label={label} />
                                         </li>
                                     ))}
                                 </List>
@@ -168,8 +165,6 @@ const Header = (props) => {
             </Hidden>
         </div>
     )
-    // <header className={collapsed ? 'collapsed' : ''}>
-    //   </header >
 }
 
 export default Header

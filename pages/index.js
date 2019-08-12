@@ -1,7 +1,7 @@
 import React from 'react'
 import Head from 'next/head'
 import Layout from "../components/common/Layout"
-import LoanList from "../components/loanList"
+import LoanList from "../components/LoanList"
 
 const Home = () => (
   <React.Fragment>

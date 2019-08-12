@@ -34,30 +34,30 @@ header.collapsed {
 }
 .link-nav {
   width: 100%;
-  display: flex;
-  justify-content: center;
   font-weight: 500;
   background-color: #ffffff;
 }
 .link-nav ul {
+  justify-content: space-between;
   display: flex;
   margin: 0;
 }
 .link-nav li {
   line-height: 44px;
-  min-width: 170px;
+  padding: 0 10px;
   text-align: center;
   list-style-type: none;
 }
-.link-nav li > a {
+.link-nav li .MuiButton-label {
   color: #6236ff;
   text-decoration: none;
+  text-transform: unset!important;
 }
 .link-nav li.active,
 .link-nav li:hover {
   background-color: #6236ff;
 }
-.link-nav li:hover > a {
+.link-nav li:hover .MuiButton-label {
   color: #fff;
 }
 .toolbar {
