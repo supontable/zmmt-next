@@ -14,7 +14,7 @@ import IconButton from '@material-ui/core/IconButton'
 import MenuIcon from '@material-ui/icons/Menu'
 import { List, Hidden, CssBaseline, Drawer, ListItem, ListItemText, Divider } from '@material-ui/core';
 //
-import SimpleMenu from './SimpleMenu'
+import DropDownMenu from './DropDownMenu'
 import './header.scss'
 const drawerWidth = 290;
 const useStyles = makeStyles(theme => ({
@@ -32,13 +32,13 @@ const useStyles = makeStyles(theme => ({
     },
     menuButton: {
         marginRight: theme.spacing(2),
-        color: '#6236ff'
+        color: '#6236ff',
     },
     title: {
         flexGrow: 1,
     },
     header: {
-        background: '#fff'
+        background: '#fff',
     },
     drawerPaper: {
         width: drawerWidth,
@@ -53,10 +53,7 @@ const links = [
     { href: '/loan_term', label: 'Срок займа' },
     { href: '/feed', label: 'Ещё' },
     { href: '/contacts', label: '8-800-333-47-88' },
-].map(link => {
-    link.key = `nav-link-${link.href}`
-    return link
-})
+]
 
 const Header = (props) => {
     const classes = useStyles()
@@ -124,9 +121,9 @@ const Header = (props) => {
                         <nav className="link-nav">
                             <Container maxWidth="lg">
                                 <List>
-                                    {links.map(({ key, label }) => (
-                                        <li key={key}>
-                                            <SimpleMenu label={label} />
+                                    {links.map((item) => (
+                                        <li key={Math.random().toString(36).substr(5,3)}>
+                                            <DropDownMenu {...item} />
                                         </li>
                                     ))}
                                 </List>
@@ -138,7 +135,6 @@ const Header = (props) => {
                             className={classes.menuButton}
                             color="inherit"
                             aria-label="open drawer"
-                            edge="start"
                             onClick={handleDrawerToggle}
                         >
                             <MenuIcon />
