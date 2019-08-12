@@ -2,6 +2,7 @@ import { Query } from 'react-apollo'
 import gql from 'graphql-tag'
 import { Grid, Container } from '@material-ui/core';
 import ErrorMessage from '../ErrorMessage'
+import WarningMessage from '../WarningMessage'
 import LoanFilter from "./filter"
 import LoanCard from '../LoanCard'
 import Aside from '../common/Aside'
@@ -70,9 +71,11 @@ function loadMoreLoans(loans, fetchMore) {
 const LoanList = () => {
   return (
     <Query query={loansQuery} variables={loansQueryVars}>
-      {({ loading, error, data: { loans, loansConnection }, fetchMore }) => {
+      {({ loading, error, data, fetchMore }) => {
+        if (!data)  return <WarningMessage message='Займы не добавлены.' />
         if (error) return <ErrorMessage message='Error loading loans.' />
         if (loading) return <div>Loading</div>
+        const  { loans, loansConnection } = data
         const areMoreLoans = loans.length < loansConnection.aggregate.count
         return (
           <React.Fragment>
