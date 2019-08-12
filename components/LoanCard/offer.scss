@@ -1,0 +1,43 @@
+.loan-card {
+  &__offer {
+    &,
+    & > table {
+      text-align: left;
+    }
+    th {
+      font-size: 12px;
+      font-weight: 400;
+      color: #6d7278;
+    }
+    td {
+      font-size: 20px;
+      font-weight: 900;
+      color: rgba(0, 0, 0, 0.85);
+    }
+  }
+  .button__take {
+    box-shadow: 0 12px 10px 0 rgba(98, 54, 255, 0.2) !important;
+    font-size: 18px;
+    height: 63px;
+  }
+}
+@media (min-width: 1280px) {
+  .loan-card {
+    &__offer {
+      &,
+      & > table {
+        width: 100%;
+      }
+    }
+    .button__take {
+      width: 100%;
+    }
+  }
+}
+@media (max-width: 600px) {
+  .loan-card {
+    .button__take {
+      width: 100%;
+    }
+  }
+}

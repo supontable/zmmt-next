@@ -1,0 +1,67 @@
+.filter-container {
+    margin-top: calc(-100vw/4); ;
+    margin-bottom: 24px;
+    padding: 0!important;
+    color: #fff;
+    display: flex;
+    flex-flow: column;
+    h1 {
+        font-family: Roboto;
+        font-size: 44px;
+        font-weight: 900;
+        letter-spacing: 1px;
+        text-align: center;
+        color: #ffffff;
+        margin-bottom: 0;
+      }
+      h2 {
+        font-family: Roboto;
+        font-weight: lighter;
+        font-size: 24px;
+        text-align: center;
+        color: #ffffff;
+        opacity: .9;
+      }
+      .filter-form {
+        height: 287px;
+        border-radius: 8px;
+        box-shadow: 0 10px 40px 0 rgba(0, 0, 0, 0.1);
+        background-color: #ffffff
+      }
+}
+.filter-form {
+  color: black;
+  .range-label {
+    display: flex;
+    align-items: center;
+    &__main {
+      font-size: 20px;
+      font-weight: 900;
+      color: rgba(0, 0, 0, 0.85);
+      text-transform: uppercase;
+    }
+    &__additional {
+      margin-left: 24px;
+      height: 24px;
+      font-size: 16px;
+      font-weight: normal;
+      color: rgba(0, 0, 0, 0.85);
+    }
+    &__supp {
+      margin-left: auto;
+      font-size: 16px;
+      text-align: right;
+      color: rgba(0, 0, 0, 0.85);
+    }
+  }
+  .tiny-label {
+    font-size: 14px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #000000; 
+    white-space: nowrap;
+  }
+}
