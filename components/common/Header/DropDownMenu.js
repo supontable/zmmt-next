@@ -9,7 +9,6 @@ const DropDownMenu = ({label}) => {
   function handleClose() {
     setAnchorEl(null);
   }
-  console.log('label', label)
   return (
     <div>
       <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
