@@ -1,7 +1,8 @@
+import './index.scss'
 export default function(props) {
     return (
-        <React.Fragment>
+        <div>
             {props.children}
-        </React.Fragment>
+        </div>
     )
 }

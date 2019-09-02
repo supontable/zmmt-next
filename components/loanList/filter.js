@@ -1,9 +1,8 @@
 import './loanFilter.scss'
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
 import {
   Grid,
   Slider,
-  Input,
   OutlinedInput,
   Box,
   Button,
@@ -12,37 +11,169 @@ import {
   FormControl,
   FormControlLabel,
   InputLabel,
+  TextField,
   Select
 } from '@material-ui/core';
 import theme from '../../lib/theme'
 import CalendarToday from '@material-ui/icons/CalendarToday'
 import CheckBoxIcon from '@material-ui/icons/CheckBox'
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank'
+import RemoveCircleOutlineIcon from '@material-ui/icons/Remove'
+import AddCircleOutlineIcon from '@material-ui/icons/Add'
+import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown'
+import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp'
+import { getNumEnding } from '../../lib/helpers';
 
 const useStyles = makeStyles({
-  root: {
-    width: 200,
-  },
   formControl: {
     margin: theme.spacing(1),
     minWidth: 120,
     flex: 1,
+    '@media(max-width: 680px)': {
+      minWidth: 240,
+    }
   },
   box: {
     height: '100%',
     display: 'flex',
     flexFlow: 'column',
     justifyContent: 'space-between',
+    '@media(max-width: 680px)': {
+      padding: 24
+    }
   },
   boxRow: {
     height: '100%',
     display: 'flex',
-  }
-});
+    '@media(max-width: 680px)': {
+      margin: 8,
+      '& button': {
+        width: '100%',
+        padding: '14px 24px',
+        textTransform: 'unset',
+        fontWeight: 'normal',
+        fontSize: '16px',
+      }
+    }
+  },
+  Button: {
+    transform: 'scale(.8)',
+    padding: 0,
+    margin: 10,
+    height: 24,
+    minWidth: 24,
+    borderRadius: '50%',
+    border: '2px solid currentColor',
+    boxSizing: 'content-box',
+    boxShadow: '0 5px 5px 0 rgba(98, 54, 255, 0.6)',
+    '&:hover': {
+      boxShadow: '0px 0px 0px 8px rgba(98, 54, 255, 0.16)',
+    },
+    '&:active': {
+      boxShadow: '0px 0px 0px 8px rgba(98, 54, 255, 0.26)',
+    },
+    '@media(max-width: 680px)': {
+      backgroundColor: '#fff',
+      height: 44,
+      minWidth: 44,
+      border: '3px solid currentColor',
+      '& .MuiSvgIcon-root': {
+        width: 44,
+        height: '100%',
+        flexShrink: 'unset'
+      }
+    }
+  },
 
+});
+const useSliderStyles = makeStyles({
+  root: {
+    color: '#6236ff',
+    height: 8,
+    '@media(max-width: 680px)': {
+      display: 'none',
+    }
+  },
+  thumb: {
+    height: 24,
+    width: 24,
+    border: '2px solid currentColor',
+    marginTop: -8,
+    marginLeft: -12,
+    boxShadow: '0 5px 5px 0 rgba(98, 54, 255, 0.6)',
+    "&::after": {
+      content: "''",
+      width: 0,
+      height: 0,
+      borderTop: '4px solid transparent',
+      borderBottom: '4px solid transparent',
+      borderLeft: '4px solid white',
+      marginLeft: 2
+    },
+    "&::before": {
+      content: "''",
+      width: 0,
+      height: 0,
+      borderTop: '4px solid transparent',
+      borderBottom: '4px solid transparent',
+      borderRight: '4px solid white',
+      marginRight: 2
+    }
+  },
+  track: {
+    opacity: .7,
+    height: 8,
+    borderRadius: 4,
+  },
+  rail: {
+    height: 8,
+    borderRadius: 4,
+  },
+}, { name: 'MuiSlider' });
+
+const RangeTextField = withStyles({
+  root: {
+    '& .MuiInputBase-root': {
+      padding: 12,
+      textAlign: "center",
+    },
+    '& .MuiOutlinedInput-input': {
+      fontSize: 26,
+      fontWeight: 900,
+      height: 20,
+      padding: 0,
+      textAlign: 'center',
+    },
+    '& .MuiOutlinedInput-root': {
+      '& fieldset': {
+        borderColor: 'rgba(98, 54, 255, .4)',
+      },
+      '&:hover fieldset': {
+        borderColor: 'rgba(98, 54, 255, .6)',
+      },
+      '&.Mui-focused fieldset': {
+        borderColor: 'rgba(98, 54, 255, .8)',
+      },
+    },
+  },
+})(TextField)
+
+function StyledSlider(props) {
+  useSliderStyles()
+  return <Slider {...props} />
+}
+
+function RestHelper(props) {
+  const text = props.hideRest ? 'Показать доп. парамерты ' : 'Скрыть доп. парамерты'
+  return <div className='rest-helper' onClick={props.handleRestHelper}>
+    <span>{text}</span>
+    {props.hideRest ? <KeyboardArrowDownIcon /> : <KeyboardArrowUpIcon />}
+  </div>
+}
 
 export default function () {
   const classes = useStyles();
+  const [hideRest, setHideRest] = React.useState(false);
   const [amount, setAmount] = React.useState(30);
   const [term, setTerm] = React.useState(30);
   const gateLabel = React.useRef(null);
@@ -57,6 +188,10 @@ export default function () {
     paymentMethod: 'Visa',
     employment: 'Безработный'
   });
+
+  const [date, changeDate] = React.useState(new Date())
+  const termDate = date.toLocaleDateString()
+
   React.useEffect(() => {
     setLabelWidth({
       ...labelWidth,
@@ -65,23 +200,52 @@ export default function () {
       employmentLabel: employmentLabel.current.offsetWidth
     });
   }, []);
+
+  React.useEffect(() => {
+    changeDate(date => {
+      date.setTime((new Date()).getTime() + term * 86400 * 1000)
+      return date
+    })
+  }, [term])
+
   const handleSelectChange = name => event => {
     setState({
       ...state,
       [name]: event.target.value,
     });
   };
-  const handleAmountSliderChange = (event, newValue) => {
-    setAmount(newValue);
-  };
+
   const handleChangeCheckbox = name => event => {
     setState({ ...state, [name]: event.target.checked });
   };
 
-
-  const handleAmountInputChange = event => {
-    setAmount(event.target.value === '' ? '' : Number(event.target.value));
+  const handleAmountSliderChange = (event, newValue) => {
+    setAmount(newValue);
   };
+
+  const handleInputChange = event => {
+    const newValue = event.currentTarget.name === '-'
+      ? parseInt(event.currentTarget.value) - 1
+      : parseInt(event.currentTarget.value) + 1
+    console.log('1')
+    event.currentTarget.slot === 'amount'
+      ? setAmount(!event.target.value ? newValue : Number(event.target.value))
+      : setTerm(!event.target.value ? newValue : Number(event.target.value));
+  };
+
+
+  const handleTermSliderChange = (event, newValue) => {
+    setTerm(newValue);
+  };
+
+  const handleTermBlur = () => {
+    if (term < 0) {
+      setTerm(0);
+    } else if (term > 100) {
+      setTerm(100);
+    }
+  };
+
   const handleAmountBlur = () => {
     if (amount < 0) {
       setAmount(0);
@@ -90,112 +254,103 @@ export default function () {
     }
   };
 
-  const handleTermSliderChange = (event, newValue) => {
-    setTerm(newValue);
-  };
+  const handleRest = () => {
+    setHideRest(!hideRest)
+  }
 
-  const handleTermInputChange = event => {
-    setTerm(event.target.value === '' ? '' : Number(event.target.value));
-  };
-  const handleTermBlur = () => {
-    if (term < 0) {
-      setTerm(0);
-    } else if (term > 100) {
-      setTerm(100);
-    }
-  };
-  const date = new Date()
-  date.setDate(date.getDate() + term)
-  const termDate = date.toLocaleDateString()
+
   return (
     <React.Fragment>
-      <h1>Онлайн займ на карту без отказа</h1>
-      <h2>Для выбора займа без отказа, воспользуйтесь калькулятором <br /> с максимальным количеством кредитных организаций:</h2>
+      <h1 className='filter-header1'>Онлайн займ на карту без отказа</h1>
+      <h2 className='filter-header2'>Для выбора займа без отказа, воспользуйтесь калькулятором <br /> с максимальным количеством кредитных организаций:</h2>
       <form className='filter-form'>
         <Box p={5} className={classes.box}>
           <div className={'ranges'}>
             <Grid container spacing={3} justify={'space-evenly'}>
               <Grid xs item container>
-                <Grid xs={12} item>
-                  <label className={'range-label'}>
-                    <span className={'range-label__main'}>
-                      Сумма займа
+                <label className={'range-label'}>
+                  <span className={'range-label__main'}>
+                    Сумма займа
                       </span>
-                    <span className={'range-label__additional'}>
-                      (от 3000 до 98 000 руб)
+                  <span className={'range-label__additional'}>
+                    (от 3000 до 98 000 руб)
                       </span>
-                  </label>
-                </Grid>
-                <Grid item xs={10}>
-                  <Slider
+                </label>
+                <Grid item xs={12} container spacing={3} direction='row' wrap='nowrap' alignItems='center'>
+                  <Button color="primary" aria-label="remove" className={classes.Button} slot="amount" name="-" value={amount} onClick={handleInputChange}>
+                    <RemoveCircleOutlineIcon />
+                  </Button>
+                  <StyledSlider
                     value={typeof amount === 'number' ? amount : 0}
                     onChange={handleAmountSliderChange}
                     aria-labelledby="input-amount-slider"
                   />
-                </Grid>
-                <Grid xs={2} item>
-                  <Box ml={3}>
-                    <Input
-                      className={classes.input}
+                  <Button color="primary" aria-label="add" className={classes.Button} slot="amount" name="+" value={amount} onClick={handleInputChange}>
+                    <AddCircleOutlineIcon />
+                  </Button>
+                  <Box mx={3} className='range-helper'>
+                    <RangeTextField
                       value={amount}
                       margin="dense"
-                      onChange={handleAmountInputChange}
+                      onChange={handleInputChange}
                       onBlur={handleAmountBlur}
+                      variant="outlined"
                       inputProps={{
-                        step: 10,
-                        min: 0,
-                        max: 100,
-                        type: 'number',
+                        slot: "amount",
+                        type: "number",
                         'aria-labelledby': 'input-amount-slider',
                       }} />
+                    <span>руб.</span>
                   </Box>
                 </Grid>
               </Grid>
               <Grid xs item container>
-                <Grid xs={12} item>
-                  <label className={'range-label'}>
-                    <span className={'range-label__main'}>
-                      срок займа
+                <label className={'range-label'}>
+                  <span className={'range-label__main'}>
+                    Срок займа
                       </span>
-                    <span className={'range-label__additional'}>
-                      (от 3 до 365 дней)
+                  <span className={'range-label__additional'}>
+                    (от 3 до 365 дней)
                       </span>
-                    <span className={'range-label__supp'}>
-                      <CalendarToday color="primary" style={{ fontSize: 16 }} />
-                      {termDate}
-                    </span>
-                  </label>
-                </Grid>
-                <Grid xs={10} item>
+                  <span className={'range-label__supp'}>
+                    <CalendarToday color="primary" style={{ fontSize: 16 }} />
+                    {termDate}
+                  </span>
+                </label>
+                <Grid xs={12} item container spacing={3} direction='row' wrap='nowrap' alignItems='center'>
+                  <Button color="primary" aria-label="remove" className={classes.Button} slot="term" name="-" value={term} onClick={handleInputChange}>
+                    <RemoveCircleOutlineIcon />
+                  </Button>
                   <Slider
                     value={typeof term === 'number' ? term : 0}
                     onChange={handleTermSliderChange}
                     aria-labelledby="input-term-slider"
                   />
-                </Grid>
-                <Grid xs={2} item>
-                  <Box ml={3}>
-                    <Input
-                      className={classes.input}
+                  <Button color="primary" aria-label="add" className={classes.Button} slot="term" name="+" value={term} onClick={handleInputChange}>
+                    <AddCircleOutlineIcon />
+                  </Button>
+                  <Box mx={3} className='range-helper'>
+                    <RangeTextField
                       value={term}
                       margin="dense"
-                      onChange={handleTermInputChange}
+                      onChange={handleInputChange}
                       onBlur={handleTermBlur}
+                      variant="outlined"
                       inputProps={{
-                        step: 10,
-                        min: 0,
-                        max: 100,
-                        type: 'number',
+                        slot: "term",
+                        type: "number",
                         'aria-labelledby': 'input-term-slider',
                       }} />
+                    <span>{getNumEnding(term, ['день', 'дня', 'дней'])}</span>
                   </Box>
                 </Grid>
               </Grid>
             </Grid>
           </div>
-          <div className={'rest'}>
+          <RestHelper handleRestHelper={handleRest} hideRest={hideRest} />
+          <div className={hideRest ? 'rest' : 'rest rest_full'}>
             <Grid container spacing={3} justify={'space-evenly'}>
-              <Grid xs={3} item container>
+              <Grid xs={12} sm={3} item container>
                 <FormGroup>
                   <FormControlLabel
                     control={
@@ -261,7 +416,6 @@ export default function () {
                     <option value={'MIR'}>MIR</option>
                   </Select>
                 </FormControl>
-
                 <FormControl variant="outlined" className={classes.formControl}>
                   <InputLabel ref={employmentLabel} htmlFor="outlined-payment-gate-native-simple">
                     Тип занятности
@@ -281,7 +435,7 @@ export default function () {
                   </Select>
                 </FormControl>
               </Grid>
-              <Grid xs={3} item>
+              <Grid xs={12} sm={3} item>
                 <Box py={1} className={classes.boxRow}>
                   <Button size="large" variant="contained" color="primary" >Подобрать компании</Button>
                 </Box>

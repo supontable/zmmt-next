@@ -1,5 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
+import './index.scss'
 
 const links = [
     {href: 'https://zeit.co/now', label: 'ZEIT'},
@@ -23,34 +24,6 @@ const Footer = () => (
                 </li>
             ))}
         </ul>
-
-        <style jsx>{`
-      .footer {
-        text-align: center;
-        margin-top: auto;
-      }
-      ul {
-        display: flex;
-        justify-content: space-between;
-      }
-      footer > ul {
-        padding: 4px 16px;
-      }
-      li {
-        display: flex;
-        padding: 6px 8px;
-      }
-      a {
-        color: #067df7;
-        text-decoration: none;
-        font-size: 13px;
-      }
-      @media (max-width: 360px) {
-          .footer {
-            background: black;
-          }
-      }
-    `}</style>
     </footer>
 )
 

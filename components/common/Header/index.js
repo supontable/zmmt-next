@@ -17,7 +17,7 @@ import { List, Hidden, CssBaseline, Drawer, ListItem, ListItemText, Divider } fr
 import SimpleMenu from './SimpleMenu'
 import './header.scss'
 const drawerWidth = 290;
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles({
     root: {
         flexGrow: 1,
         marginBottom: 'auto',
@@ -25,13 +25,20 @@ const useStyles = makeStyles(theme => ({
         backgroundBlendMode: 'multiply',
         backgroundRepeat: 'no-repeat',
         backgroundSize: '100% auto',
-        maxHeight: 'calc(100vw*0.499)',
+        height: 'calc(100vw*0.499)',
         display: 'flex',
         flexFlow: 'column',
         alignItems: 'center',
+        '&.collapsed': {
+            height: 182,
+        },
+        '@media(max-width: 680px)': {
+            height: 'calc(100vh)',
+            backgroundSize: 'auto 75%',
+            backgroundPositionX: '35%'
+        }
     },
     menuButton: {
-        marginRight: theme.spacing(2),
         color: '#6236ff'
     },
     title: {
@@ -43,7 +50,7 @@ const useStyles = makeStyles(theme => ({
     drawerPaper: {
         width: drawerWidth,
     },
-}))
+})
 
 const links = [
     { href: '/loan_types', label: 'Вид кредита онлайн' },
@@ -82,7 +89,7 @@ const Header = (props) => {
     );
 
     return (
-        <div className={classes.root}>
+        <div className={!props.collapsed ? classes.root : classes.root + ' collapsed'}>
             <CssBaseline />
             <Container maxWidth="lg">
                 <Hidden smDown implementation="css">

@@ -1,39 +1,61 @@
-.filter-container {
-    margin-top: calc(-100vw/4); ;
-    margin-bottom: 24px;
-    padding: 0!important;
-    color: #fff;
-    display: flex;
-    flex-flow: column;
-    h1 {
-        font-family: Roboto;
-        font-size: 44px;
-        font-weight: 900;
-        letter-spacing: 1px;
-        text-align: center;
-        color: #ffffff;
-        margin-bottom: 0;
-      }
-      h2 {
-        font-family: Roboto;
-        font-weight: lighter;
-        font-size: 24px;
-        text-align: center;
-        color: #ffffff;
-        opacity: .9;
-      }
-      .filter-form {
-        height: 287px;
-        border-radius: 8px;
-        box-shadow: 0 10px 40px 0 rgba(0, 0, 0, 0.1);
-        background-color: #ffffff
-      }
+.collapsed~.MuiContainer-root .filter-container {
+  margin-top: 50px;
+  h1 {
+    display: none;
+  }
+  h2 {
+    display: none;
+  }
+  .filter-form {
+    width: 100%;
+  }
 }
-.filter-form {
-  color: black;
+.filter-container {
+  margin-top: calc(-100vw / 4);
+  margin-bottom: 24px;
+  padding: 0 !important;
+  color: #fff;
+  display: flex;
+  flex-flow: column;
+  h1 {
+    text-transform: uppercase;
+    font-family: Roboto;
+    font-size: 44px;
+    font-weight: 900;
+    letter-spacing: 1px;
+    text-align: center;
+    color: #ffffff;
+    margin-bottom: 0;
+  }
+  h2 {
+    font-family: Roboto;
+    font-weight: lighter;
+    font-size: 24px;
+    text-align: center;
+    color: #ffffff;
+    opacity: 0.9;
+    margin-bottom: 48px;
+  }
+  .filter-form {
+    height: 287px;
+    border-radius: 8px;
+    box-shadow: 0 10px 40px 0 rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+    color: black;
+  }
+  .range-helper {
+    display: flex;
+    align-items: center;
+    span {
+      margin-left: 8px;
+      font-size: 20px;
+      min-width: 46px;
+    }
+  }
   .range-label {
     display: flex;
     align-items: center;
+    margin-bottom: 16px;
     &__main {
       font-size: 20px;
       font-weight: 900;
@@ -61,7 +83,83 @@
     font-stretch: normal;
     line-height: normal;
     letter-spacing: normal;
-    color: #000000; 
+    color: #000000;
     white-space: nowrap;
+  }
+  .rest-helper {
+    display: none;
+  }
+  @media (max-width: 680px) {
+    margin-top: -90vh;
+
+    .filter-header1,
+    .filter-header2 {
+      display: none;
+    }
+    .ranges > .MuiGrid-container,
+    .rest > .MuiGrid-container,
+    .range-label {
+      flex-flow: column;
+    }
+    .range-helper {
+      margin-left: 8px;
+      margin-right: 8px;
+    }
+    .range-label {
+      text-align: center;
+      margin: 8px auto;
+      &__main {
+        text-transform: unset;
+      }
+      &__additional {
+        margin-left: 0;
+      }
+    }
+    .range-label ~ .MuiGrid-container {
+      margin: 0 auto;
+    }
+    .filter-form {
+      height: 100%;
+      background-color: rgba(255, 255, 255, 0.8);
+    }
+    button[name="+"] {
+      order: 3;
+    }
+    & .muibox-root {
+      order: 2;
+    }
+    .range-label__supp {
+      display: none;
+    }
+    .rest-helper {
+      margin: 24px 0 8px auto;
+      font-size: 18px;
+      color: #6236ff;
+      white-space: nowrap;
+      display: flex;
+      & svg {
+        margin-left: 35px;
+      }
+    }
+    .rest {
+      transition: max-height 0.5s cubic-bezier(0, 1, 0, 1);
+      max-height: 0;
+      height: 100%;
+      &_full {
+        max-height: 600px;
+        transition: max-height 1s ease-in-out;
+      }
+      overflow: hidden;
+    }
+  }
+
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  input[type="number"] {
+    -moz-appearance: textfield;
   }
 }

@@ -4,11 +4,9 @@ import { Grid, Container } from '@material-ui/core';
 import ErrorMessage from '../ErrorMessage'
 import WarningMessage from '../WarningMessage'
 import LoanFilter from "./filter"
+import AsideFilter from './asideFilter'
 import LoanCard from '../LoanCard'
-import Aside from '../common/Aside'
-import TopWidget from '../common/widgets/topWidget'
-import BlogWidget from '../common/widgets/blogWidget'
-import ApplyWidget from '../common/widgets/applyWidget'
+
 import './loanList.scss'
 
 
@@ -68,7 +66,7 @@ function loadMoreLoans(loans, fetchMore) {
     }
   })
 }
-const LoanList = () => {
+const LoanList = (props) => {
   return (
     <Query query={loansQuery} variables={loansQueryVars}>
       {({ loading, error, data, fetchMore }) => {
@@ -81,16 +79,13 @@ const LoanList = () => {
           <React.Fragment>
             <Container className="filter-container"><LoanFilter /></Container>
             <Grid spacing={3} container component='section' className='rootGrid'>
-              <Grid item xs={12} md={8} lg={9} component='ul'>
+              <Grid className='filtered-content' item xs={12} md={8} lg={9} container component='ul' direction='column'>
                 {loans.map((loan, index) => (
                     <LoanCard key={index} {...loan} />
                 ))}
               </Grid>
               <Grid item xs={12} md={4} lg={3} className=''>
-                {/* <TopWidget  widgetList={[{},{},{},{},{}]} /> */}
-                <ApplyWidget />
-                <BlogWidget title='Полезные материалы' expanderTitle='Все статьи' widgetList={[{ createdAt: '2020-01-01', title: 'ipsum lorum' }, { createdAt: '2020-01-01', title: 'ipsum lorum' }]} />
-                <BlogWidget title='Новости' expanderTitle='Остальные новости' widgetList={[{ createdAt: '2020-01-01', title: 'ipsum lorum' }, { createdAt: '2020-01-01', title: 'ipsum lorum' }]} />
+                {props.aside || <AsideFilter/>}
               </Grid>
               {areMoreLoans ? (
                 <button onClick={() => loadMoreLoans(loans, fetchMore)}>

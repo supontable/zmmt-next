@@ -1,0 +1,70 @@
+{
+    "filterLabels": {
+        "loanName": "Название МФО",
+        "loanAmout": "Сумма Займа",
+        "loanRate": "Процентная ставка",
+        "takeGate": "Способ получения",
+        "loanTypes": "Типы займов",
+        "loanTerm": "Срок займа",
+        "refoundGate": "Способы погашения",
+        "job": "Род занятий",
+        "age": "Возраст",
+        "city": "Город проживания",
+        "placeholders": {
+            "loanName": "Введите название",
+            "loanAmout": "Введите сумму",
+            "loanRateCheckboxes": {
+                "without": "Без процентов",
+                "low": "Низкий процент"
+            },
+            "takeGateCheckboxes": {
+                "bill":"На счет",
+                "card":"На карту",
+                "cash":"Наличными",
+                "qiwi":"Qiwi",
+                "yandex":"Яндекс.Деньги",
+                "webmoney":"WEBMONEY",
+                "contact":"Contact"
+            },
+            "loanTypesCheckboxes": {
+                "noPledge":"Без залога",
+                "noInq":"Без справок",
+                "badCredit":"С плохой кредитной историей",
+                "noCheck":"Без проверок",
+                "noRefuse":"Без отказа"
+            },
+            "loanTerm": "Введите кол. дней",
+            "loanTermCheckboxes": {
+                "week":"Неделя",
+                "weeks":"Две недели",
+                "until":"До зарплаты",
+                "month":"Месяц",
+                "two":"2 Месяца",
+                "three":"3 Месяца",
+                "six":"6 Месяцев",
+                "year":"Год"
+            },
+            "refoundGateCheckboxes": {
+                "card":"Перевод на указанную карту",
+                "expert":"Вызвав на дом эксперта",
+                "internet":"В интернет-банке",
+                "qiwi":"С помощью терминала QIWI",
+                "office":"В офисе компании",
+                "yandex":"Через Яндекс Деньги"
+            },
+            "jobCheckboxes": {
+                "stud":"Студент",
+                "free":"Пенсионер",
+                "idle":"Безработный"
+            },
+            "age": "Ваш возраст",
+            "city": "Введите название",
+            "cityCheckboxes": {
+                "0":"Москва",
+                "1":"Санкт-Петербург",
+                "2":"Новосибирск",
+                "3":"Казань"
+            }
+        }
+    }
+}

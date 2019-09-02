@@ -2,7 +2,7 @@ import { Button } from '@material-ui/core';
 import './apply.scss'
 export default function () {
     return (
-        <section className={'widget'}>
+        <section className={'widget widget__apply'}>
             <h3>Подать заявку</h3>
             Не смогли выбрать компанию?
             Оставьте заявку и мы подберем
