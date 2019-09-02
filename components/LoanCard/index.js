@@ -29,6 +29,7 @@ const LoanCard = ({
                 <Header {...action} />
                 <Grid xs={aboutCols} item className={'loan-card__about'}>
                     <About logoUrl={logo ? logo.url : "default.png"} />
+
                 </Grid>
                 <Grid xs item className={'loan-card__calc'}>
                     <Calc {...conditions} />

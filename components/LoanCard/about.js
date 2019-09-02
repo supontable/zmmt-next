@@ -7,7 +7,7 @@ export default function ({ loanName, logoUrl }) {
     return (
         <div className='about'>
             <div className={'logo'}>
-                <img src={wrapApiUrl(logoUrl)} alt={loanName} />
+                <img src={logoUrl} alt={loanName} />
             </div>
             <Hidden implementation="css" only={['xs', 'sm']}>
                 <Box my={1}>
