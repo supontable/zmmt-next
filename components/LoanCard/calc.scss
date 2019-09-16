@@ -1,27 +1,93 @@
 .calc {
-    height: 100%;
-    display: flex;
-    flex-flow: column;
+  height: 100%;
+  display: flex;
+  flex-flow: column;
 }
 
 .info {
-    height: 90px;
-    border-radius: 8px;
-    border: 1px #d8d8d8 dashed;
+  height: 90px;
+  border-radius: 8px;
+  border: 1px #d8d8d8 dashed;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  table {
+    text-align: justify;
+    white-space: nowrap;
+    th {
+      color: #6d7278;
+      font-size: 12px;
+      font-weight: 400;
+    }
+    td {
+      font-size: 16px;
+      font-weight: 900;
+      line-height: 1.19;
+      color: rgba(0, 0, 0, 0.85);
+    }
+    td::after {
+      content: "руб";
+      font-weight: 400;
+    }
+  }
 }
 .conditions {
-    table {
-        width: 100%;
-        text-align: justify;
-        th {
-            color: #6d7278;
-            font-size: 12px;
-            font-weight: 400;
-        }
-        td {
-            font-size: 12px;
-            font-weight: 900;
-            color: rgba(0, 0, 0, 0.5);
-        }
+  table {
+    white-space: nowrap;
+    width: 100%;
+    text-align: justify;
+    th {
+      color: #6d7278;
+      font-size: 12px;
+      font-weight: 400;
     }
+    td {
+      font-size: 12px;
+      font-weight: 900;
+      color: rgba(0, 0, 0, 0.5);
+    }
+  }
+}
+
+@media (max-width: 680px) {
+  .info {
+    height: 70px;
+    margin: 0 -8px;
+    table {
+      th {
+        font-size: 10px;
+      }
+    }
+  }
+}
+
+@media (max-width: 420px) {
+  .info {
+    table {
+      td::after {
+          content: '₽';
+      }
+    }
+  }
+  .conditions {
+    table {
+      th {
+        color: #6d7278;
+        font-size: 12px;
+        font-weight: 400;
+      }
+      td {
+        font-size: 12px;
+        font-weight: 900;
+        color: rgba(0, 0, 0, 0.5);
+      }
+    }
+    &__amount {
+      display: flex;
+      flex-flow: column;
+    }
+    &__account {
+      display: none;
+    }
+  }
 }

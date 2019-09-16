@@ -1,12 +1,9 @@
 .footer {
-    text-align: center;
-    margin-top: auto;
-  }
-  ul {
+  text-align: center;
+  margin-top: auto;
+  & ul {
     display: flex;
     justify-content: space-between;
-  }
-  footer > ul {
     padding: 4px 16px;
   }
   li {
@@ -18,8 +15,9 @@
     text-decoration: none;
     font-size: 13px;
   }
-  @media (max-width: 360px) {
-      .footer {
-        background: black;
-      }
+}
+@media (max-width: 360px) {
+  .footer {
+    background: black;
   }
+}

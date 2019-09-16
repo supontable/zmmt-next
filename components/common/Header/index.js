@@ -6,16 +6,29 @@ import Logo from "../svg/logo"
 import Profile from "../svg/profile"
 import Find from "../svg/find"
 import Comparison from "../svg/comparison"
+import theme from "../../../lib/theme"
+import ExpandLess from '@material-ui/icons/ExpandLess';
+import ExpandMore from '@material-ui/icons/ExpandMore';
 //appbar
 import { makeStyles } from '@material-ui/core/styles'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import IconButton from '@material-ui/core/IconButton'
 import MenuIcon from '@material-ui/icons/Menu'
-import { List, Hidden, CssBaseline, Drawer, ListItem, ListItemText, Divider } from '@material-ui/core';
-//
-import DropDownMenu from './DropDownMenu'
+import { Collapse, ListSubheader, List, Hidden, CssBaseline, Drawer, ListItem, ListItemText, Divider, Button } from '@material-ui/core';
+import SimpleMenu from './SimpleMenu'
 import './header.scss'
+import gql from 'graphql-tag';
+import { useQuery } from '@apollo/react-hooks';
+const headerQuery = gql`
+  query headers {
+    headers {
+      label
+      href
+      list
+    }
+  }
+`
 const drawerWidth = 290;
 const useStyles = makeStyles({
     root: {
@@ -24,19 +37,21 @@ const useStyles = makeStyles({
         backgroundImage: "url('/static/layout@2x.png'), linear-gradient(to bottom, rgba(0, 0, 0, 0), #6236ff)",
         backgroundBlendMode: 'multiply',
         backgroundRepeat: 'no-repeat',
-        backgroundSize: '100% auto',
-
+        backgroundSize: '101% auto',
         height: 'calc(100vw*0.499)',
-
         display: 'flex',
         flexFlow: 'column',
         alignItems: 'center',
+        maxHeight: 650,
         '&.collapsed': {
             height: 182,
         },
         '@media(max-width: 680px)': {
-            height: 'calc(100vh)',
-            backgroundSize: 'auto 75%',
+            '&.collapsed': {
+                height: 56,
+            },
+            height: '100vh',
+            backgroundSize: 'auto 70%',
             backgroundPositionX: '35%'
         }
     },
@@ -53,46 +68,66 @@ const useStyles = makeStyles({
     drawerPaper: {
         width: drawerWidth,
     },
+    nested: {
+        paddingLeft: theme.spacing(4),
+    },
+
 })
-
-const links = [
-    { href: '/loan_types', label: 'Вид кредита онлайн' },
-    { href: '/payment_gate', label: 'Способ получения' },
-    { href: '/payment_accounts', label: 'Способ погащения' },
-    { href: '/employee_type', label: 'Тип занятости' },
-    { href: '/loan_term', label: 'Срок займа' },
-    { href: '/feed', label: 'Ещё' },
-    { href: '/contacts', label: '8-800-333-47-88' },
-]
-
 const Header = (props) => {
-    const classes = useStyles()
-    const [mobileOpen, setMobileOpen] = React.useState(false);
     const { container } = props
+    const { loading, error, data } = useQuery(headerQuery);
+    const [mobileOpen, setMobileOpen] = React.useState(false);
+    const { headers } = !loading && !error ? data : {headers:[]}
+    const classes = useStyles()
     function handleDrawerToggle() {
         setMobileOpen(!mobileOpen);
     }
+    const AsideDrawer = () => {
+        const [openState, setOpen] = React.useState();
+        React.useEffect(() => {
+            setOpen({ ...headers.map(() => false) })
+        }, [])
+        const handleClick = (index, item) => () => {
+            setOpen(state => {
+                return ({ ...state, [index]: !state[index.toString()] })
+            });
+        }
 
-    const drawer = (
-        <div>
-            <div className={classes.toolbar} />
-            <List>
-                <Divider />
-                {links.map((link, index) => (
-                    <ListItem button key={index}>
-                        <ListItemText primary={link.label} />
-                    </ListItem>
-                ))}
-                <Divider />
-            </List>
-        </div>
-    );
+        return (
+                <List component="nav"
+                    aria-labelledby="nested-list-subheader"
+                    >
+
+                    <Divider />
+                    {headers && openState && headers.map((item, index) => (
+                        <React.Fragment key={index}>
+                            <ListItem button onClick={handleClick(index, item)}>
+                                <ListItemText primary={item.label} />
+                                {headers.length !== index + 1 && (openState[index.toString()] ? <ExpandLess /> : <ExpandMore />)}
+                            </ListItem>
+                            <Collapse in={openState[index.toString()]} timeout="auto" unmountOnExit>
+                                <List component="div" disablePadding>
+                                    {headers.length !== index + 1 && item.list.map((sub, _index) => {
+                                        return (
+                                            <ListItem key={_index} button className={classes.nested}>
+                                                <ListItemText primary={sub.label} />
+                                            </ListItem>
+                                        )
+                                    })}
+                                </List>
+                            </Collapse>
+                        </React.Fragment>
+                    ))}
+                    <Divider />
+                </List>
+        )
+    };
 
     return (
         <div className={!props.collapsed ? classes.root : classes.root + ' collapsed'}>
             <CssBaseline />
             <Container maxWidth="lg">
-                <Hidden smDown implementation="css">
+                <Hidden mdDown implementation="css">
                     <Box component="nav" className="user-nav" my={3}>
                         <Logo />
                         <div className='user-nav__links'>
@@ -111,8 +146,8 @@ const Header = (props) => {
             </Container>
             <AppBar className={classes.header} position="static">
                 <Toolbar className='toolbar' disableGutters>
-                    <Hidden mdUp implementation="css" className='logo_mobile'><Logo color={'#1e4883'} /></Hidden>
-                    <Hidden mdUp implementation="css">
+                    <Hidden lgUp implementation="css" className='logo_mobile'><Logo color={'#1e4883'} /></Hidden>
+                    <Hidden lgUp implementation="css">
                         <Box component="nav" className="user-nav user-nav_mobile">
                             <div className='user-nav__links'>
                                 <Link href='/'>
@@ -127,20 +162,24 @@ const Header = (props) => {
                             </div>
                         </Box>
                     </Hidden>
-                    <Hidden smDown implementation="css" className='fluid'>
+                    <Hidden mdDown implementation="css" className='fluid'>
                         <nav className="link-nav">
                             <Container maxWidth="lg">
                                 <List>
-                                    {links.map((item) => (
-                                        <li key={Math.random().toString(36).substr(5,3)}>
-                                            <DropDownMenu {...item} />
+                                    {headers && headers.map((item, key) => (
+                                        <li className="link-nav__li" key={Math.random().toString(36).substr(5, 3)}>
+                                            {headers.length === key + 1
+                                                ? <Button сolor='primary' aria-haspopup="true">
+                                                    {item.label}
+                                                </Button>
+                                                : <SimpleMenu {...item} />}
                                         </li>
                                     ))}
                                 </List>
                             </Container>
                         </nav>
                     </Hidden>
-                    <Hidden mdUp implementation="css">
+                    <Hidden lgUp implementation="css">
                         <IconButton edge="start"
                             className={classes.menuButton}
                             color="inherit"
@@ -152,7 +191,7 @@ const Header = (props) => {
                     </Hidden>
                 </Toolbar>
             </AppBar>
-            <Hidden mdUp implementation="css">
+            <Hidden lgUp implementation="css">
                 <Drawer
                     container={container}
                     variant="temporary"
@@ -165,7 +204,7 @@ const Header = (props) => {
                     ModalProps={{
                         keepMounted: true, // Better open performance on mobile.
                     }}
-                >{drawer}
+                ><AsideDrawer />
                 </Drawer>
 
             </Hidden>

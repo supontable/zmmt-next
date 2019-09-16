@@ -38,12 +38,13 @@ header.collapsed {
   background-color: #ffffff;
 }
 .link-nav ul {
+  padding: 0;
   justify-content: space-between;
   display: flex;
   margin: 0;
 }
-.link-nav li {
-  line-height: 44px;
+.link-nav__li {
+  line-height: 64px;
   padding: 0 10px;
   text-align: center;
   list-style-type: none;

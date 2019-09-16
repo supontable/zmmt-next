@@ -5,13 +5,55 @@ import { Box, Slider, Input } from '@material-ui/core';
 
 
 
-export default function ({ amountMin, amountMax, termMin, termMax, accounts, rate }) {
-
+export default function ({ amountMin, amountMax, termMin, termMax, accounts, rate, amount = 5000, term = 10 }) {
     return (
         <div className={'calc'}>
             <div className={'info'}>
-                
-            </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Сумма займа</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                {amount}&nbsp;
+                    </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <span>+</span>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Комиссия {term} {getNumEnding(term, ['день', 'дня', 'дней'])}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                {amount * rate * term}&nbsp;
+                    </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <span>=</span>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Возвращаете</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                {amount * rate * term + amount}&nbsp;
+                        </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div >
             <Box mt={3} className={'conditions '}>
                 <table>
                     <thead>
@@ -19,21 +61,21 @@ export default function ({ amountMin, amountMax, termMin, termMax, accounts, rat
                             <th>Ставка в день</th>
                             <th>Сумма</th>
                             <th>На срок</th>
-                            <th>Получить</th>
+                            <th className='conditions__account'>Получить</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <td>
-                                {`от ${rate * 100} %`}
+                                от {rate * 100} %
+                            </td>
+                            <td className='conditions__amount'>
+                                <span>от {amountMin}</span><span> до {amountMax} руб</span>
                             </td>
                             <td>
-                                {`от ${amountMin} до ${amountMax} руб`}
+                                {termMin}-{termMax} {getNumEnding(termMax, ['день', 'дня', 'дней'])}
                             </td>
-                            <td>
-                                {`${termMin}-${termMax} ${getNumEnding(termMax, ['день', 'дня', 'дней'])}`}
-                            </td>
-                            <td>
+                            <td className='conditions__account'>
                                 {accounts.length > 0 &&
                                     accounts.map((account, index) => <AccountIcon key={index} url={wrapApiUrl(account.logo.url)} />)}
                             </td>
@@ -44,7 +86,7 @@ export default function ({ amountMin, amountMax, termMin, termMax, accounts, rat
             <style jsx>{`
               
             `}</style>
-        </div>
+        </div >
 
     )
 }

@@ -5,16 +5,32 @@
   box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.1);
   border: solid 1px #d8d8d8;
   background-color: #ffffff;
+  margin-bottom: 24px;
 }
-
 
 @media (min-width: 1280px) {
   .loan-card {
+    &__aside {
+      margin-left: 24px !important;
+    }
     &__calc {
       margin: 0 24px !important;
     }
+  }
+}
+@media (min-width: 960px) {
+  .loan-card {
+    &__calc {
+      margin: 0 12px !important;
+    }
+  }
+}
+@media (max-width: 680px) {
+  .loan-card {
+    margin-bottom: 8px;
+    padding: 52px 16px 16px 16px;
     &__aside {
-      margin-left: 24px !important;
+      margin-top: 24px !important;
     }
   }
 }

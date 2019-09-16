@@ -1,5 +1,5 @@
-.collapsed~.MuiContainer-root .filter-container {
-  margin-top: 50px;
+.collapsed ~ .MuiContainer-root .filter-container {
+  margin-top: 0px;
   h1 {
     display: none;
   }
@@ -49,7 +49,7 @@
     span {
       margin-left: 8px;
       font-size: 20px;
-      min-width: 46px;
+      width: 46px;
     }
   }
   .range-label {
@@ -89,9 +89,25 @@
   .rest-helper {
     display: none;
   }
+  @media (min-width: 1680px) {
+    margin-top: -420px;
+  }
   @media (max-width: 680px) {
-    margin-top: -90vh;
-
+    margin-top: -568px;
+  }
+  @media (max-width: 420px) {
+    margin-top: -540px;
+    .rest_full {
+      margin: 0 -24px;
+    }
+  }
+  @media (max-width: 370px) {
+    margin-top: -470px;
+    .rest_full {
+      margin: 0 -24px;
+    }
+  }
+  @media (max-width: 1024px) {
     .filter-header1,
     .filter-header2 {
       display: none;
@@ -116,7 +132,9 @@
       }
     }
     .range-label ~ .MuiGrid-container {
-      margin: 0 auto;
+      margin: 0 -16px;
+      flex-grow: 1;
+      max-width: unset;
     }
     .filter-form {
       height: 100%;
@@ -132,13 +150,14 @@
       display: none;
     }
     .rest-helper {
-      margin: 24px 0 8px auto;
+      margin: 24px -8px 8px -8px;
       font-size: 18px;
       color: #6236ff;
       white-space: nowrap;
       display: flex;
       & svg {
-        margin-left: 35px;
+        margin-left: auto;
+        margin-right: 0;
       }
     }
     .rest {

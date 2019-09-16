@@ -1,13 +1,14 @@
-import { Query } from 'react-apollo'
+import { Query } from '@apollo/react-components'
 import gql from 'graphql-tag'
 import { Grid, Container } from '@material-ui/core';
 import ErrorMessage from '../ErrorMessage'
 import WarningMessage from '../WarningMessage'
-import LoanFilter from "./filter"
-import AsideFilter from './asideFilter'
+import LoanFilter from "./LoanFilter"
+import AsideFilter from './AsideFilter'
 import LoanCard from '../LoanCard'
 
 import './loanList.scss'
+import FastFiler from './FastFilter';
 
 
 export const loansQuery = gql`
@@ -23,6 +24,7 @@ export const loansQuery = gql`
       createdAt
       offerApproval
       offerTime
+      href
       action {
         actionName
         color
@@ -67,25 +69,29 @@ function loadMoreLoans(loans, fetchMore) {
   })
 }
 const LoanList = (props) => {
+  const [sliderState, setSliderState] = React.useState({ amount: 3000, term: 30 })
   return (
     <Query query={loansQuery} variables={loansQueryVars}>
       {({ loading, error, data, fetchMore }) => {
-        if (!data)  return <WarningMessage message='Займы не добавлены.' />
+        if (!data) return <WarningMessage message='Займы не добавлены.' />
         if (error) return <ErrorMessage message='Error loading loans.' />
         if (loading) return <div>Loading</div>
-        const  { loans, loansConnection } = data
+        const { loans, loansConnection } = data
         const areMoreLoans = loans.length < loansConnection.aggregate.count
         return (
           <React.Fragment>
-            <Container className="filter-container"><LoanFilter /></Container>
+            <Container className="filter-container">
+              <LoanFilter handleSliderChange={setSliderState} />
+            </Container>
             <Grid spacing={3} container component='section' className='rootGrid'>
               <Grid className='filtered-content' item xs={12} md={8} lg={9} container component='ul' direction='column'>
+                {props.aside && <FastFiler />}
                 {loans.map((loan, index) => (
-                    <LoanCard key={index} {...loan} />
+                  <LoanCard key={index} {...loan} {...sliderState} />
                 ))}
               </Grid>
               <Grid item xs={12} md={4} lg={3} className=''>
-                {props.aside || <AsideFilter/>}
+                {props.aside || <AsideFilter />}
               </Grid>
               {areMoreLoans ? (
                 <button onClick={() => loadMoreLoans(loans, fetchMore)}>

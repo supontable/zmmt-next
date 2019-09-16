@@ -2,7 +2,7 @@ import App, { Container } from 'next/app'
 import React from 'react'
 import mediaQuery from 'css-mediaquery'
 import withApolloClient from '../lib/with-apollo-client'
-import { ApolloProvider } from 'react-apollo'
+import { ApolloProvider } from '@apollo/react-common'
 import { ThemeProvider } from '@material-ui/styles';
 import theme from '../lib/theme';
 import { CssBaseline } from '@material-ui/core';

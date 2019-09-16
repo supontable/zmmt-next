@@ -3,7 +3,7 @@ import Link from 'next/link'
 import './about.scss'
 import { Hidden, Box } from '@material-ui/core';
 
-export default function ({ loanName, logoUrl }) {
+export default function ({ loanName, logoUrl, href, id }) {
     return (
         <div className='about'>
             <div className={'logo'}>
@@ -11,7 +11,7 @@ export default function ({ loanName, logoUrl }) {
             </div>
             <Hidden implementation="css" only={['xs', 'sm']}>
                 <Box my={1}>
-                    <Link href='/about'><a className={'link'}>Подробнее о компании</a></Link>
+                    <Link href={'/loans' + href + `?id=${id}`}><a className={'link'}>Подробнее о компании</a></Link>
                 </Box>
             </Hidden>
             <div className={'reviews'}>

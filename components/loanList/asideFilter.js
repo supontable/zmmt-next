@@ -1,16 +1,8 @@
 import {
-    Grid,
-    Slider,
-    OutlinedInput,
-    Box,
-    Button,
     Checkbox,
     FormGroup,
-    FormControl,
     FormControlLabel,
-    InputLabel,
     TextField,
-    Select
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import intl from '../../lib/intl.json'
@@ -39,7 +31,7 @@ const useStyles = makeStyles({
         }
     }
 });
-export default function (props) {
+export default function AsideFilter (props) {
     const labels = intl.filterLabels
     const placeholders = labels.placeholders
 

@@ -16,7 +16,7 @@ export default function SimpleMenu({ label, list }) {
     const classes = useStyles()
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl)
-    if (!list) list = [
+    const linkList = list.list || [
         { href: '/', label: 'Займы по пасспорту' },
         { href: '/', label: 'Кредит без поручителей' },
         { href: '/', label: 'Заем без справки о доходах' },
@@ -53,12 +53,12 @@ export default function SimpleMenu({ label, list }) {
                 onClose={handleClose}
                 PaperProps={{
                     style: {
-                        maxHeight: ITEM_HEIGHT * 10,
+                        maxHeight: ITEM_HEIGHT * 30,
                         width: 420,
                     },
                 }}
             >
-            {list.length > 0 && list.map((item, id) => (<MenuItem key={id} onClick={handleClose}>{item.label}</MenuItem>))}
+            {linkList.length > 0 && linkList.map((item, id) => (<MenuItem key={id} onClick={handleClose}>{item.label}</MenuItem>))}
             </Menu>
         </React.Fragment>
     );
