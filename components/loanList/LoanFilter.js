@@ -182,6 +182,7 @@ export default function ({ handleSliderChange = () => { } }) {
   }, [labelWidth]);
 
   const handleSelectChange = name => event => {
+    event.stopPropagation();
     setState({
       ...state,
       [name]: event.target.value,
@@ -189,17 +190,21 @@ export default function ({ handleSliderChange = () => { } }) {
   };
 
   const handleChangeCheckbox = name => event => {
+    event.stopPropagation();
     setState({ ...state, [name]: event.target.checked });
   };
 
   const handleAmountSliderChange = (event, newValue) => {
+    event.stopPropagation();
     setAmount(newValue);
   };
 
   const handleTermSliderChange = (event, newValue) => {
+    event.stopPropagation();
     setTerm(newValue);
   };
   const handleInputChange = (step, min, max) => event => {
+    event.stopPropagation();
     const newValue = event.currentTarget.name === '-'
       ? (parseInt(event.currentTarget.value) - step > min ? parseInt(event.currentTarget.value) - step : min)
       : (parseInt(event.currentTarget.value) - step < max ? parseInt(event.currentTarget.value) + step : max)
@@ -212,7 +217,8 @@ export default function ({ handleSliderChange = () => { } }) {
   if (loading) return <React.Fragment>Loading</React.Fragment>
   const sliders = !loading && !error ? data.loanfilters[0].sliders : {}
 
-  const handleTermBlur = () => {
+  const handleTermBlur = (event) => {
+    event.stopPropagation();
     if (term < (sliders.term.min)) {
       setTerm((sliders.term.min));
     } else if (term > (sliders.term.max)) {
@@ -220,7 +226,8 @@ export default function ({ handleSliderChange = () => { } }) {
     }
   };
 
-  const handleAmountBlur = () => {
+  const handleAmountBlur = (event) => {
+    event.stopPropagation();
     if (amount < (sliders.amount.min)) {
       setAmount((sliders.amount.min));
     } else if (amount > (sliders.amount.max)) {
