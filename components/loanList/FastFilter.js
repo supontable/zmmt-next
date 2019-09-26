@@ -7,15 +7,7 @@ import {
 import { withStyles } from '@material-ui/core/styles';
 import KeyboardArrowLeftIcon from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
-import { useQuery } from '@apollo/react-hooks';
-import gql from 'graphql-tag';
-const filtersQuery = gql`
-  query loanfilters {
-    loanfilters {
-      links
-    }
-  }
-`
+
 const StyledTabs = withStyles({
     root: {
         backgroundColor: 'transparent',
@@ -57,17 +49,15 @@ const StyledBar = withStyles(theme => ({
     },
 }))(props => <AppBar {...props} />);
 
-export default function FastFiler({ handleLinkClick = () => { } }) {
-   
+export default function FastFiler({ handleLinkClick = () => { }, linkList }) {
+
     const [value, setValue] = React.useState(0);
 
     function handleChange(event, newValue) {
         setValue(newValue);
         handleLinkClick(newValue)
     }
-    const { loading, error, data } = useQuery(filtersQuery);
-    if (loading) return <React.Fragment>Loading</React.Fragment>
-    const linkList = data.loanfilters[0].links
+    if (!linkList) return <React.Fragment>Loading</React.Fragment>
     function CustomScrollButtonComponent(props) {
         if (props.direction === 'right') return (
             <IconButton aria-label="right" onClick={props.onClick}>

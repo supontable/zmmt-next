@@ -2,10 +2,13 @@ import { getNumEnding, wrapApiUrl } from '../../lib/helpers'
 import AccountIcon from '../common/Icon/accountIcon'
 import './calc.scss'
 import { Box, Slider, Input } from '@material-ui/core';
+import { SlidersContext } from '../../SlidersContext';
 
 
 
-export default function ({ amountMin, amountMax, termMin, termMax, accounts, rate, amount = 5000, term = 10 }) {
+export default function ({ amountMin, amountMax, termMin, termMax, accounts, rate }) {
+    const [slidersContext] = React.useContext(SlidersContext);
+    const {amount, term} = slidersContext
     return (
         <div className={'calc'}>
             <div className={'info'}>

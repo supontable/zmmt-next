@@ -1,6 +1,6 @@
 import { Query } from '@apollo/react-components'
 import gql from 'graphql-tag'
-import { Grid, Container } from '@material-ui/core';
+import { Grid, Container, CircularProgress } from '@material-ui/core';
 import ErrorMessage from '../ErrorMessage'
 import WarningMessage from '../WarningMessage'
 import LoanFilter from "./LoanFilter"
@@ -9,11 +9,12 @@ import LoanCard from '../LoanCard'
 
 import './loanList.scss'
 import FastFiler from './FastFilter';
+import { useQuery } from '@apollo/react-hooks';
 
 
-export const loansQuery = gql`
-  query loans($limit: Int!, $start: Int!) {
-    loans(sort: "createdAt:desc", start: $start, limit: $limit) {
+export const GET_LOANS = gql`
+  query loans($limit: Int!, $start: Int!, $where: JSON) {
+    loans(sort: "createdAt:desc", start: $start, limit: $limit, where: $where) {
       loanName
       id
       rate
@@ -46,11 +47,14 @@ export const loansQuery = gql`
     }
   }
 `
-
-export const loansQueryVars = {
-  start: 0,
-  limit: 10
-}
+const GET_FILTERS = gql`
+  query loanfilters {
+    loanfilters {
+      sliders
+      links
+    }
+  }
+`
 
 function loadMoreLoans(loans, fetchMore) {
   fetchMore({
@@ -69,26 +73,33 @@ function loadMoreLoans(loans, fetchMore) {
   })
 }
 const LoanList = (props) => {
-  const [sliderState, setSliderState] = React.useState({ amount: 3000, term: 30 })
+  const { loading: loadingFilters, error: errorFilters, data: dataFilters } = useQuery(GET_FILTERS);
+  if (loadingFilters) return <React.Fragment>Loading</React.Fragment>
+  const {sliders, links} = !errorFilters && dataFilters.loanfilters[0]
+  console.log('LoanList')
+  const loansQueryVars = {
+    start: 0,
+    limit: 10,
+  }
   return (
-    <Query query={loansQuery} variables={loansQueryVars}>
-      {({ loading, error, data, fetchMore }) => {
+    <Query query={GET_LOANS} variables={loansQueryVars}>
+      {({ loading, error, data, fetchMore, refetch }) => {
         if (!data) return <WarningMessage message='Займы не добавлены.' />
-        if (error) return <ErrorMessage message='Error loading loans.' />
-        if (loading) return <div>Loading</div>
-        const { loans, loansConnection } = data
-        const areMoreLoans = loans.length < loansConnection.aggregate.count
+        if (error) return <ErrorMessage message='Ошибка при загрузке' />
+        const loans = !loading ? data.loans : []
+        const loansConnection = !loading ? data.loansConnection : false
+        const areMoreLoans = loansConnection ? loans.length < loansConnection.aggregate.count : false
         return (
           <React.Fragment>
             <Container className="filter-container">
-              <LoanFilter handleSliderChange={setSliderState} />
+              <LoanFilter handleRefetch={refetch} slidersScope={sliders} />
             </Container>
             <Grid spacing={3} container component='section' className='rootGrid'>
               <Grid className='filtered-content' item xs={12} md={8} lg={9} container component='ul' direction='column'>
-                {props.aside && <FastFiler />}
-                {loans.map((loan, index) => (
-                  <LoanCard key={index} {...loan} {...sliderState} />
-                ))}
+                {props.aside && <FastFiler linkList={links} />}
+                {!loading ? loans.map((loan, index) => (
+                  <LoanCard key={index} {...loan} />
+                )) : <CircularProgress className='progress' />}
               </Grid>
               <Grid item xs={12} md={4} lg={3} className=''>
                 {props.aside || <AsideFilter />}

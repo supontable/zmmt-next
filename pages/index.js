@@ -12,6 +12,7 @@ import SubscribeAction from '../components/SubscribeAction'
 import { useQuery } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 import ActionList from '../components/ActionList'
+import { SlidersProvider } from '../SlidersContext'
 const mainContentQuery = gql`
   query mainpagecontents {
     mainpagecontents {
@@ -35,7 +36,7 @@ const Home = () => {
   const returnGate = contentList.find(item => item.type === 'returnGate')
   console.log(returnGate)
   return (
-    <React.Fragment>
+    <SlidersProvider>
       <Head>
         <title>Home</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
@@ -60,7 +61,7 @@ const Home = () => {
         <SubscribeAction />
         <InfoSection {...returnGate} />
       </Layout>
-    </React.Fragment>
+    </SlidersProvider>
   )
 }
 export default Home
