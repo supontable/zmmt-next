@@ -115,6 +115,7 @@ export default function LoanFilter({ handleRefetch = () => { }, slidersScope }) 
   }, []);
 
   const handleSelectChange = name => event => {
+    event.stopPropagation();
     setState({
       ...state,
       [name]: event.target.value,
@@ -122,6 +123,7 @@ export default function LoanFilter({ handleRefetch = () => { }, slidersScope }) 
   };
 
   const handleChangeCheckbox = name => event => {
+    event.stopPropagation();
     setState({ ...state, [name]: event.target.checked });
   };
 
@@ -145,6 +147,7 @@ export default function LoanFilter({ handleRefetch = () => { }, slidersScope }) 
   const handleRest = () => {
     setHideRest(!hideRest)
   }
+  
   return <React.Fragment>
     <h1 className='filter-header1'>Онлайн займ на карту без отказа</h1>
     <h2 className='filter-header2'>Для выбора займа без отказа, воспользуйтесь калькулятором <br /> с максимальным количеством кредитных организаций:</h2>
