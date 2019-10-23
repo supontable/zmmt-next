@@ -34,7 +34,6 @@ const Home = () => {
   const how = contentList.find(item => item.type === 'how')
   const paymentGates = contentList.find(item => item.type === 'paymentGates')
   const returnGate = contentList.find(item => item.type === 'returnGate')
-  console.log(returnGate)
   return (
     <SlidersProvider>
       <Head>

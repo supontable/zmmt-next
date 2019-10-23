@@ -71,7 +71,6 @@ const RangeTextField = withStyles({
 })(TextField)
 
 export default function Sliders(props) {
-    console.log('Sliders')
     const classes = useStyles();
     const { scope, disableInput } = props
 
