@@ -3,7 +3,7 @@ import About from './about'
 import Calc from './calc'
 import Offer from './offer'
 import './loanCard.scss'
-import { Grid, Hidden, Box, Button } from '@material-ui/core';
+import { Grid, Hidden, Button } from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Comparision from '../common/svg/comparison'
@@ -15,6 +15,7 @@ const LoanCard = ({
     offerTime,
     logo,
     action,
+    withLogo = true,
     ...conditions
 }) => {
     const theme = useTheme()
@@ -29,11 +30,11 @@ const LoanCard = ({
     return (
         <Grid container direction={cardDireciton} className={'loan-card'}>
             <Header {...action} />
-            <Link href={'/loans' + conditions.href + `?id=${conditions.id}`}>
+            {withLogo && <Link href={'/loans' + conditions.href + `?id=${conditions.id}`}>
                 <Grid xs={aboutCols} item className={'loan-card__about'}>
                     <About logoUrl={logo ? API_HOST + logo.url : "default.png"} {...conditions} />
                 </Grid>
-            </Link>
+            </Link>}
             <Grid xs item className={'loan-card__calc'}>
                 <Calc {...conditions} />
             </Grid>

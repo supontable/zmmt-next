@@ -1,0 +1,27 @@
+.loan-head {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  margin-bottom: 24px;
+  &__logo, &__reviews {
+    max-width: 50%;
+  }
+  &__reviews > img {
+      margin-bottom: 14px;
+  }
+}
+.loan-req {
+  margin-top: 24px!important;
+  & ~ ul {
+    list-style: none;
+    padding: 0;
+    & > li {
+      font-size: 14px;
+      line-height: 14px;
+      display: flex;
+      margin-bottom: 12px;
+    }
+  }
+}

@@ -28,6 +28,7 @@
     "react": "16.8.6",
     "react-dom": "16.8.6",
     "react-native-switch-selector": "^1.1.14",
+    "react-swipeable-views": "^0.13.3",
     "sass-resources-loader": "^2.0.1",
     "showdown": "^1.9.0"
   },

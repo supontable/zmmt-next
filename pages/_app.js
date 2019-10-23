@@ -29,7 +29,7 @@ class MyApp extends App {
                 // Be aware that this feature is not supported everywhere: https://caniuse.com/#search=client%20hint.
                 // - User-agent. You can parse the user agent of the client, then convert the data to a
                 // is mobile or is desktop variable, and finally, guess the most likely screen width of the client.
-                width: 1280,
+                width: 600,
             }),
         });
 

@@ -8,7 +8,11 @@ import { SlidersContext } from '../../SlidersContext';
 
 export default function ({ amountMin, amountMax, termMin, termMax, accounts, rate }) {
     const [slidersContext] = React.useContext(SlidersContext);
-    const {amount, term} = slidersContext
+    let {amount, term} = slidersContext
+    if (!amount || !term) {
+        amount = amountMax
+        term = termMax
+    }
     return (
         <div className={'calc'}>
             <div className={'info'}>
